@@ -15,7 +15,7 @@ function ReadingListener ( jQuery ){
 	
     {% for sensor in sensors %}
         var dps_{{sensor}} = [];
-        var chart_{{sensor}} = makeNewChart( "{{sensor}}",
+        var chart_{{sensor}} = makeNewChart( '{{sensor.name}}',
             "{{sensor}}Container", dps_{{sensor}} );
         getSeriesData( dps_{{sensor}}, 'sensor', '{{sensor}}', sensorSeconds);
         renderChart( dps_{{sensor}}, chart_{{sensor}},

@@ -6,7 +6,7 @@
 <h1>Sensors</h1>
 <form action="graph" method="POST">
 {% for sensor in sensors %}
-<input type="checkbox" name="sensor" value="{{sensor}}">{{sensor}}<br>
+<input type="checkbox" name="sensor" value="{{sensor}}">{{sensor.name}}<br>
 {% endfor %}
 <input type="submit" value="Submit">
 </form>

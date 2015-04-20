@@ -50,7 +50,11 @@ def index():
 
 @app.route('/graph', methods=['POST'])
 def makeGraph():
-    sensors = request.form.getlist('sensor')
+    sensor_ids = request.form.getlist('sensor')
+    sensors = []
+    for sensor in sensor_ids:
+        s = SensorNode.objects.get(sensor_id = sensor)
+        sensors.append(s)
     return render_template('graph.html', sensors=sensors)
 
 
