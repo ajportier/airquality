@@ -1,0 +1,32 @@
+<!doctype html>
+<head>
+</head>
+<body>
+	<h2>Approved</h2>
+	<form action="admin" method="post">
+	{% for sensor in approved %}
+        {{ sensor.form.approve }}
+        {{ sensor.sensor }}
+        {{ sensor.form.name }}
+        {{ sensor.form.name.label }}
+        {{ sensor.form.region }}
+        {{ sensor.form.region.label }}
+        {{ sensor.form.csrf_token }}<br/>
+	{% endfor %}
+    <input type="submit" name="edit" value="Edit">
+    </form>
+
+	<h2>Not Approved</h2>
+	<form action="admin" method="post">
+    {% for sensor in unapproved %}
+        {{ sensor.form.approve }}
+        {{ sensor.sensor }}
+        {{ sensor.form.name }}
+        {{ sensor.form.name.label }}
+        {{ sensor.form.region }}
+        {{ sensor.form.region.label }}
+        {{ sensor.form.csrf_token }}<br/>
+    {% endfor %}
+	<input type="submit" name="approve" value="Approve">
+    </form>
+</body>

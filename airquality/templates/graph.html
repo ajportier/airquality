@@ -1,0 +1,34 @@
+<!doctype html>
+<head>
+
+<script src="static/js/jquery-1.11.2.js"></script>
+<script src="static/js/jquery.canvasjs.min.js"></script>
+<script src="static/js/graph.js"></script>
+
+<script type="text/javascript">
+function ReadingListener ( jQuery ){
+    console.log( "READY!" );
+    
+    var updateInterval = 20;
+	var sensorSeconds = 5;
+	var dataLength = 60;
+	
+    {% for sensor in sensors %}
+        var dps_{{sensor}} = [];
+        var chart_{{sensor}} = makeNewChart( "{{sensor}}",
+            "{{sensor}}Container", dps_{{sensor}} );
+        getSeriesData( dps_{{sensor}}, 'sensor', '{{sensor}}', sensorSeconds);
+        renderChart( dps_{{sensor}}, chart_{{sensor}},
+            updateInterval, dataLength );
+    {% endfor %}
+};
+
+$( document ).ready( ReadingListener );
+</script>
+
+</head>
+<body>
+{% for sensor in sensors %}
+    <div id="{{sensor}}Container" style="height: 300px; width: 100%;"></div>
+{% endfor %}
+</body>
