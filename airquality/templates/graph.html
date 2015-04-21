@@ -1,10 +1,7 @@
-<!doctype html>
-<head>
+{% extends "base.html" %}
 
-<script src="static/js/jquery-1.11.2.js"></script>
-<script src="static/js/jquery.canvasjs.min.js"></script>
+{% block head %}
 <script src="static/js/graph.js"></script>
-
 <script type="text/javascript">
 function ReadingListener ( jQuery ){
     console.log( "READY!" );
@@ -25,10 +22,11 @@ function ReadingListener ( jQuery ){
 
 $( document ).ready( ReadingListener );
 </script>
+<title>AirQuality - Graphs</title>
+{% endblock %}
 
-</head>
-<body>
+{% block body %}
 {% for sensor in sensors %}
     <div id="{{sensor}}Container" style="height: 300px; width: 100%;"></div>
 {% endfor %}
-</body>
+{% endblock %}

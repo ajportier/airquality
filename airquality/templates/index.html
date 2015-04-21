@@ -1,13 +1,34 @@
-<!doctype html>
-<head>
-</head>
-<body>
-<a href="admin">Admin Page</a>
-<h1>Sensors</h1>
-<form action="graph" method="POST">
-{% for sensor in sensors %}
-<input type="checkbox" name="sensor" value="{{sensor}}">{{sensor.name}}<br>
-{% endfor %}
-<input type="submit" value="Submit">
-</form>
-</body>
+{% extends "base.html" %}
+
+{% block head %}
+<title>AirQuality</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="jumbotron">
+    <h1>AirQuality</h1>
+    <p>AirQuality is a service for collecting air quality readings from sensors attached to single-board
+    computers, such as the Raspberry Pi. Readings are collected using a RESTful interface, then displayed
+    in real-time using graphs. Sensors can be grouped into regions to create graphs averaging the results
+    of all sensors in the region, instead of displaying individual sensor readings.</p>
+    <p>To get started, select one or more sensors / regions below and click "Graph"</p>
+</div>
+
+<div class="graphable-container">
+    <form action="/graph" method="POST" class="form-inline" role="form">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Sensors <small>Graph Individual Sensors</small></h1>
+                {% for sensor in sensors %}
+                <input type="checkbox" name="sensor" value="{{sensor}}">{{sensor.name}}<br>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="text-center button-container">
+            <button type="submit" class="btn btn-primary btn-giant">Graph</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

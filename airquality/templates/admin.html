@@ -1,32 +1,43 @@
-<!doctype html>
-<head>
-</head>
-<body>
-	<h2>Approved</h2>
-	<form action="admin" method="post">
-	{% for sensor in approved %}
-        {{ sensor.form.approve }}
-        {{ sensor.sensor }}
-        {{ sensor.form.name }}
-        {{ sensor.form.name.label }}
-        {{ sensor.form.region }}
-        {{ sensor.form.region.label }}
-        {{ sensor.form.csrf_token }}<br/>
-	{% endfor %}
-    <input type="submit" name="edit" value="Edit">
-    </form>
+{% extends "base.html" %}
+{% block head %}
+<title>AirQuality - Admin</title>
+{% endblock %}
+{% block body %}
 
-	<h2>Not Approved</h2>
-	<form action="admin" method="post">
-    {% for sensor in unapproved %}
+<div class="row">
+<form action="/admin" method="POST" class="form-inline" role="form">
+<div class="col-md-6">
+    <h2>Approved</h2>
+    {% for sensor in approved %}
         {{ sensor.form.approve }}
-        {{ sensor.sensor }}
-        {{ sensor.form.name }}
+        {{ sensor.sensor }}<br/>
         {{ sensor.form.name.label }}
-        {{ sensor.form.region }}
+        {{ sensor.form.name }}
         {{ sensor.form.region.label }}
+        {{ sensor.form.region }}
         {{ sensor.form.csrf_token }}<br/>
     {% endfor %}
-	<input type="submit" name="approve" value="Approve">
-    </form>
-</body>
+    <div class="text-center button-container">
+        <button type="submit" class="btn btn-primary btn-large" name="edit">Edit</button>
+    </div>
+</div>
+
+<div class="col-md-6">
+<h2>Not Approved</h2>
+    <form action="admin" method="post">
+    {% for sensor in unapproved %}
+        {{ sensor.form.approve }}
+        {{ sensor.sensor }}<br/>
+        {{ sensor.form.name.label }}
+        {{ sensor.form.name }}
+        {{ sensor.form.region.label }}
+        {{ sensor.form.region }}
+        {{ sensor.form.csrf_token }}<br/>
+    {% endfor %}
+    <div class="text-center button-container">
+        <button type="submit" class="btn btn-primary btn-large" name="approve">Approve</button>
+    </div>
+</div>
+</form>
+</div>
+{% endblock %}
