@@ -81,6 +81,8 @@ int main(void)
     const char *uri, *key;
     CURL *curl;
     CURLcode res;
+    char postdata[256];
+    struct curl_slist *headers = NULL;
 
     // Configuration Setup
     config_init(&cfg);
@@ -108,6 +110,10 @@ int main(void)
         fprintf(stderr, "libcurl setup error\n");
         return(EXIT_FAILURE);
     }
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_URL, uri);
 
     // GPIO Setup
@@ -123,13 +129,20 @@ int main(void)
 	while(1){
 		pinMode(ADC_DIO, OUTPUT);
 		tmp = get_ADC_Result();
-		printf("%d\n",tmp);
+
+        sprintf(postdata, "{\"value\":\"%d\",\"sensor_id\":\"%s\"}",
+                tmp, key);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
+
+        printf("Sent: %s\n", postdata);
         res = curl_easy_perform(curl);
+
         if (res != CURLE_OK){
             fprintf(stderr, "curl failed: %s\n",
                     curl_easy_strerror(res));
         }
-        delay(1000);
+        
+        delay(1000); // sleep for 1 second and loop
 	}
 
     curl_global_cleanup();
