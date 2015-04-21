@@ -79,22 +79,38 @@ int main(void)
     config_t cfg;
     config_setting_t *setting;
     const char *uri, *key;
+    CURL *curl;
+    CURLcode res;
 
+    // Configuration Setup
     config_init(&cfg);
 
     if(! config_read_file(&cfg, "config.cfg")){
         fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg),
             config_error_line(&cfg), config_error_text(&cfg));
-            config_destroy(&cfg);
-            return(EXIT_FAILURE);
+        config_destroy(&cfg);
+        return(EXIT_FAILURE);
     }
 
-    if(config_lookup_string(&cfg, "uri", &uri)){
-        printf("URI: %s\n", uri);
-    } else {
+    if(! config_lookup_string(&cfg, "uri", &uri)){
         fprintf(stderr, "No 'uri' setting in configuration\n");
+        return(EXIT_FAILURE);
     }
 
+    if(! config_lookup_string(&cfg, "key", &key)){
+        fprintf(stderr, "No 'key' setting in configuration\n");
+        return(EXIT_FAILURE);
+    }
+
+    // CURL Setup
+    curl = curl_easy_init();
+    if (! curl) {
+        fprintf(stderr, "libcurl setup error\n");
+        return(EXIT_FAILURE);
+    }
+    curl_easy_setopt(curl, CURLOPT_URL, uri);
+
+    // GPIO Setup
 	if(wiringPiSetup() == -1){
 		printf("setup wiringPi failed !");
 		return 1; 
@@ -103,12 +119,19 @@ int main(void)
 	pinMode(ADC_CS,  OUTPUT);
 	pinMode(ADC_CLK, OUTPUT);
 
+    // Main Loop
 	while(1){
 		pinMode(ADC_DIO, OUTPUT);
 		tmp = get_ADC_Result();
 		printf("%d\n",tmp);
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK){
+            fprintf(stderr, "curl failed: %s\n",
+                    curl_easy_strerror(res));
+        }
         delay(1000);
 	}
 
+    curl_global_cleanup();
 	return 0;
 }
