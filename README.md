@@ -1,11 +1,13 @@
-# airquality
+# AirQuality
 Air quality sensor network sim
 
 ## About
 AirQuality is a service for collecting air quality readings from sensors attached to single-board computers, such as the Raspberry Pi. Readings are collected using a RESTful interface, then displayed in real-time using graphs. Sensors can be grouped into regions to create graphs averaging the results of all sensors in the region, instead of displaying individual sensor readings.
 
-Final Project for Internet of Things class at Villanova University
+Final Project for Internet of Things class at Villanova University.
+
 Made with Flask, jQuery, CanvasJS and Bootstrap, using MongoDB as a database backend.
+
 RaspberryPi sender component written in C using WiringPi, libcurl and libconfig. Assumes use of MQ-2 Gas Sensor connected through a ADC0832 analog-to-digital converter.
 
 ## Installation
