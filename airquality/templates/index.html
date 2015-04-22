@@ -24,6 +24,12 @@
                 <input type="checkbox" name="sensor" value="{{sensor}}">{{sensor.name}}<br>
                 {% endfor %}
             </div>
+            <div class="col-md-6">
+                <h1>Regions <small>Graph Entire Regions</small></h1>
+                {% for region in regions %}
+                <input type="checkbox" name="region" value="{{region}}">{{region}}<br>
+                {% endfor %}
+            </div>
         </div>
         <div class="text-center button-container">
             <button type="submit" class="btn btn-primary btn-giant">Graph</button>

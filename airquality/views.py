@@ -45,17 +45,19 @@ api.add_resource(GetRegionReading, '/api/region/reading/get')
 @app.route('/')
 def index():
     sensors = SensorNode.objects(approved=True)
-    return render_template('index.html', sensors=sensors)
+    regions = SensorNode.objects.distinct('region')
+    return render_template('index.html', sensors=sensors, regions=regions)
 
 
 @app.route('/graph', methods=['POST'])
 def makeGraph():
     sensor_ids = request.form.getlist('sensor')
+    regions = request.form.getlist('region')
     sensors = []
     for sensor in sensor_ids:
         s = SensorNode.objects.get(sensor_id = sensor)
         sensors.append(s)
-    return render_template('graph.html', sensors=sensors)
+    return render_template('graph.html', sensors=sensors, regions=regions)
 
 
 ''' Generates the view for the Admin page and handles forms '''

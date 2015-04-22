@@ -18,6 +18,15 @@ function ReadingListener ( jQuery ){
         renderChart( dps_{{sensor}}, chart_{{sensor}},
             updateInterval, dataLength );
     {% endfor %}
+    
+    {% for region in regions %}
+        var dps_{{region}} = [];
+        var chart_{{region}} = makeNewChart( '{{region}} (Region)',
+            "{{region}}Container", dps_{{region}} );
+        getSeriesData( dps_{{region}}, 'region', '{{region}}', sensorSeconds);
+        renderChart( dps_{{region}}, chart_{{region}},
+            updateInterval, dataLength );
+    {% endfor %}
 };
 
 $( document ).ready( ReadingListener );
@@ -26,6 +35,9 @@ $( document ).ready( ReadingListener );
 {% endblock %}
 
 {% block body %}
+{% for region in regions %}
+    <div id="{{region}}Container" style="height: 300px; width: 100%;"></div>
+{% endfor %}
 {% for sensor in sensors %}
     <div id="{{sensor}}Container" style="height: 300px; width: 100%;"></div>
 {% endfor %}

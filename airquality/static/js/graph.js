@@ -28,6 +28,21 @@ function getSeriesData( dataPoints, mode, target, seconds ) {
 
         });
     }
+    
+    if ( mode === 'region' ) {
+        $.get('/api/region/reading/get',
+            { seconds: seconds, region: target },
+            function ( data ) {
+            
+            $.each(data.readings, function(i,reading){
+                timestamp = reading.created.$date;
+                value = reading.value;
+                dataPoints.push({ x: timestamp, y: value});
+            });
+
+        });
+    }
+    
     setTimeout(function(){getSeriesData(dataPoints, mode, target, seconds)},
         seconds * 1000);
 };
