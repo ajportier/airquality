@@ -1,6 +1,8 @@
 from airquality import db
 from datetime import datetime
 
+
+''' MongoDB object schema for a sensor node (what sends readings) '''
 class SensorNode(db.Document):
     created = db.DateTimeField(required=True, default=datetime.now)
     sensor_id = db.StringField(required=True)
@@ -12,6 +14,7 @@ class SensorNode(db.Document):
         return self.sensor_id
     
 
+''' MongoDB object schema for a single reading value, adding node and timestamp '''
 class SensorReading(db.Document):
     created = db.DateTimeField(required=True, default=datetime.now)
     node = db.ReferenceField(SensorNode, required=True)

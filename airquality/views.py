@@ -37,11 +37,13 @@ def updateSensorByForm(sensor, form):
     sensor.save()
 
 
+''' Maps flask-restful Resources to API endpoints '''
 api.add_resource(AddGasReading, '/api/gas/reading/add')
 api.add_resource(GetGasReading, '/api/gas/reading/get')
 api.add_resource(GetRegionReading, '/api/region/reading/get')
 
 
+''' View that renders the Index page and provides what can be graphed '''
 @app.route('/')
 def index():
     sensors = SensorNode.objects(approved=True)
@@ -49,6 +51,7 @@ def index():
     return render_template('index.html', sensors=sensors, regions=regions)
 
 
+''' View that takes POST data from form on Index and sets up the graphs '''
 @app.route('/graph', methods=['POST'])
 def makeGraph():
     sensor_ids = request.form.getlist('sensor')
