@@ -21,7 +21,7 @@ RaspberryPi sender component written in C using WiringPi, libcurl and libconfig.
   4. Browse to http://127.0.0.1:5000 or wherever the server is running to see the user interface
 
 ### Raspberry Pi Portion
-  1. Obtain and connect MQ-2 Gas Sensor and ADC0832 (wiring diagram to be included in rspi folder)
+  1. Obtain and connect MQ-2 Gas Sensor and ADC0832 (wiring diagram in rspi/mq-2_wiring.jpg)
   2. Install WiringPi, libcurl and libconfig on RaspberryPi (instructions in rspi/sender.c)
   3. Compile sender executable, modify config.cfg to point at running server, and start as root
 
